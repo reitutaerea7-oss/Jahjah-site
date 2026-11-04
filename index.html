@@ -111,7 +111,36 @@ result.textContent = String(cleanReply)
   .replace(/\\r/g, "")
   .replace(/\\"/g, '"');
 
-  
+  const videoUrl = data.video_url;
+const videoStatus = data.video_status;
+
+if (
+  videoStatus === "done" &&
+  typeof videoUrl === "string" &&
+  videoUrl.startsWith("https://")
+) {
+  const video = document.createElement("video");
+  video.src = videoUrl;
+  video.controls = true;
+  video.playsInline = true;
+  video.preload = "metadata";
+  video.style.width = "100%";
+  video.style.maxWidth = "480px";
+  video.style.marginTop = "20px";
+  video.style.borderRadius = "12px";
+
+  const link = document.createElement("a");
+  link.href = videoUrl;
+  link.textContent = "🎬 Ouvrir la vidéo MP4";
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.style.display = "block";
+  link.style.marginTop = "12px";
+
+  result.appendChild(video);
+  result.appendChild(link);
+}
+
 
         } catch {
           result.textContent = text || "Réponse vide.";
