@@ -82,11 +82,16 @@
 
         try {
           const data = JSON.parse(text);
-          result.textContent =
-            typeof data === "string"
-              ? data
-              : data.output || data.response ||
-                data.message || JSON.stringify(data, null, 2);
+          
+const reply =
+  typeof data === "string"
+    ? data
+    : data.reply || data.output ||
+      data.response || data.message ||
+      JSON.stringify(data, null, 2);
+
+result.textContent = String(reply).replace(/\\n/g, "\n");
+
         } catch {
           result.textContent = text || "Réponse vide.";
         }
