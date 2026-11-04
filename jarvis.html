@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAHJAH JARVIS AI</title>
+<style>
+:root{color-scheme:dark;--cyan:#39ddff;--bg:#050e19}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#e6f8ff;font-family:Arial,sans-serif}
+header{padding:20px;border-bottom:1px solid #20546b;display:flex;justify-content:space-between;align-items:center}
+h1{color:var(--cyan);font-size:23px;margin:0}
+small{color:#8caeba}
+main{max-width:1100px;margin:auto;padding:18px}
+.core{text-align:center;padding:32px 12px;background:radial-gradient(circle,#103b52,#071521 70%);border:1px solid #20546b;border-radius:20px}
+.ring{width:160px;height:160px;margin:0 auto 18px;border:5px dashed var(--cyan);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 35px #167d9c;animation:spin 18s linear infinite}
+.ring span{font-size:38px;font-weight:bold;animation:spin 18s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:18px}
+.panel{background:#0d2233;border:1px solid #24536b;border-radius:15px;padding:18px}
+h2{color:var(--cyan);font-size:19px}
+button{background:#0b91b7;color:white;border:0;border-radius:9px;padding:12px 16px;cursor:pointer;font-weight:bold}
+button:hover{background:#13b9e5}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;background:#071522;color:white;border:1px solid #32738b;border-radius:8px;font-size:16px}
+textarea{min-height:100px}
+.output{white-space:pre-wrap;overflow-wrap:anywhere;background:#071522;padding:14px;border-radius:10px;margin-top:12px}
+.status{color:#f9c66b}
+footer{text-align:center;color:#8caeba;padding:25px}
+</style>
+</head>
+<body>
+<header><div><h1>◉ JAHJAH JARVIS AI</h1><small>Centre de commande intelligent</small></div><span class="status">● MODE LOCAL</span></header>
+<main>
+<section class="core">
+<div class="ring"><span>AI</span></div>
+<h2>Bienvenue dans JARVIS</h2>
+<p>Assistant de création et de gestion des réseaux sociaux</p>
+<p class="status">Prototype actif — comptes non connectés</p>
+</section>
+<div class="grid">
+<section class="panel">
+<h2>✦ Scripts et hashtags</h2>
+<input id="topic" placeholder="Sujet : gadget de cuisine, technologie...">
+<select id="platform"><option>TikTok</option><option>YouTube Shorts</option></select>
+<button onclick="generate()">Générer un brouillon</button>
+<div id="result" class="output" aria-live="polite">Ton brouillon apparaîtra ici.</div>
+<button onclick="copyDraft()">Copier le brouillon</button>
+</section>
+<section class="panel">
+<h2>▣ TikTok</h2>
+<p>Préparation des publications et vidéos.</p>
+<p class="status">API non connectée</p>
+<button onclick="notice('TikTok')">État de la connexion</button>
+</section>
+<section class="panel">
+<h2>▶ YouTube</h2>
+<p>Gestion future des Shorts et vidéos.</p>
+<p class="status">API non connectée</p>
+<button onclick="notice('YouTube')">État de la connexion</button>
+</section>
+<section class="panel">
+<h2>↗ Tendances</h2>
+<p>Veille des tendances à connecter à des sources autorisées.</p>
+<button onclick="notice('Tendances')">Consulter le statut</button>
+</section>
+<section class="panel">
+<h2>▦ Calendrier éditorial</h2>
+<input type="date" id="date">
+<textarea id="plan" placeholder="Idée de publication à préparer..."></textarea>
+<button onclick="savePlan()">Enregistrer le brouillon</button>
+<div id="saved" class="output">Aucun brouillon enregistré.</div>
+</section>
+<section class="panel">
+<h2>⚙ Automatisation n8n</h2>
+<p>Connexion sécurisée à configurer.</p>
+<p class="status">Non connectée</p>
+<button onclick="notice('n8n')">État de la connexion</button>
+</section>
+</div>
+</main>
+<footer>JAHJAH JARVIS AI • Version 1.0 • Aucune publication automatique</footer>
+<script>
+function generate(){
+const topic=document.getElementById('topic').value.trim();
+const platform=document.getElementById('platform').value;
+if(!topic){alert('Indique un sujet.');return}
+const tags=topic.normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-zA-Z0-9]+/g)||[];
+const hashtag=tags.slice(0,3).map(x=>'#'+x).join(' ');
+document.getElementById('result').textContent=
+'PLATEFORME : '+platform+'\nSUJET : '+topic+
+'\n\nACCROCHE : Découvre cette idée !'+
+'\n\nSCRIPT 30 SECONDES :'+
+'\n0-5 s : Présente '+topic+'.'+
+'\n5-15 s : Montre son intérêt avec des images originales.'+
+'\n15-25 s : Explique un conseil utile.'+
+'\n25-30 s : Invite à commenter.'+
+'\n\nDESCRIPTION : Découvre '+topic+' et partage ton avis !'+
+'\n\nHASHTAGS : '+hashtag+' #Astuce #Video';
+}
+async function copyDraft(){
+const value=document.getElementById('result').textContent;
+try{await navigator.clipboard.writeText(value);alert('Brouillon copié !')}
+catch(e){alert('Sélectionne le texte pour le copier.')}
+}
+function notice(name){alert(name+' : connexion réelle non configurée. Aucune action externe effectuée.')}
+function savePlan(){
+const date=document.getElementById('date').value;
+const plan=document.getElementById('plan').value.trim();
+if(!date||!plan){alert('Indique une date et une idée.');return}
+document.getElementById('saved').textContent='Brouillon : '+date+' — '+plan+'\nNon publié.';
+}
+</script>
+</body>
+</html>
