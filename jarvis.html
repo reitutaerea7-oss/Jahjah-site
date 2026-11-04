@@ -80,23 +80,43 @@ footer{text-align:center;color:#8caeba;padding:25px}
 </main>
 <footer>JAHJAH JARVIS AI • Version 1.0 • Aucune publication automatique</footer>
 <script>
-function generate(){
-const topic=document.getElementById('topic').value.trim();
-const platform=document.getElementById('platform').value;
-if(!topic){alert('Indique un sujet.');return}
-const tags=topic.normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-zA-Z0-9]+/g)||[];
-const hashtag=tags.slice(0,3).map(x=>'#'+x).join(' ');
-document.getElementById('result').textContent=
-'PLATEFORME : '+platform+'\nSUJET : '+topic+
-'\n\nACCROCHE : Découvre cette idée !'+
-'\n\nSCRIPT 30 SECONDES :'+
-'\n0-5 s : Présente '+topic+'.'+
-'\n5-15 s : Montre son intérêt avec des images originales.'+
-'\n15-25 s : Explique un conseil utile.'+
-'\n25-30 s : Invite à commenter.'+
-'\n\nDESCRIPTION : Découvre '+topic+' et partage ton avis !'+
-'\n\nHASHTAGS : '+hashtag+' #Astuce #Video';
+async function generate() {
+  const topic = document.getElementById('topic').value.trim();
+  const platform = document.getElementById('platform').value;
+  const result = document.getElementById('result');
+
+  if (!topic) {
+    alert('Indique un sujet.');
+    return;
+  }
+
+  result.textContent = 'JARVIS réfléchit...';
+
+  try {
+    const response = await fetch(
+      'https://reitutaerea.app.n8n.cloud/webhook/jahjah-jarvis',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: `Prépare un brouillon pour ${platform} : ${topic}`
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Erreur HTTP ' + response.status);
+    }
+
+    const data = await response.json();
+    result.textContent = data.reply || 'Réponse vide de JARVIS.';
+  } catch (error) {
+    result.textContent = 'Connexion impossible : ' + error.message;
+  }
 }
+
 async function copyDraft(){
 const value=document.getElementById('result').textContent;
 try{await navigator.clipboard.writeText(value);alert('Brouillon copié !')}
