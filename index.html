@@ -90,7 +90,21 @@ const reply =
       data.response || data.message ||
       JSON.stringify(data, null, 2);
 
-result.textContent = String(reply).replace(/\\n/g, "\n");
+
+let cleanReply = reply;
+
+if (typeof cleanReply === "string") {
+  try {
+    const parsed = JSON.parse(cleanReply);
+    cleanReply = parsed.reply ?? parsed.output ?? cleanReply;
+  } catch (e) {}
+}
+
+result.textContent = String(cleanReply)
+  .replace(/\\r\\n/g, "\n")
+  .replace(/\\n/g, "\n")
+  .replace(/\\"/g, '"');
+  
 
         } catch {
           result.textContent = text || "Réponse vide.";
