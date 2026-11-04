@@ -1,16 +1,104 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jahjah — Assistant de création</title><style>body{margin:0;background:#10121b;color:#f7f8fc;font:16px system-ui,sans-serif}header,main,footer{max-width:900px;margin:auto;padding:28px}nav a, a{color:#6ee7f5}h1{font-size:clamp(38px,8vw,72px);margin:10px 0}h2{color:#6ee7f5}.hero{padding:75px 0}.bolt{font-size:75px;color:#ff4fb6}.card{background:#1d2030;border-radius:18px;padding:24px;margin:16px 0}footer{font-size:14px;color:#bfc3d4}button{background:#6ee7f5;border:0;border-radius:10px;padding:14px 22px;font-weight:bold}</style></head><body><header><strong>⚡ Jahjah</strong><nav><a href="#fonctionnalites">Fonctionnalités</a> · <a href="confidentialite.html">Confidentialité</a> · <a href="conditions.html">Conditions</a></nav></header><main><section class="hero"><div class="bolt">ϟ</div><h1>Jahjah</h1><p>Votre futur assistant pour préparer et organiser vos contenus sur les réseaux sociaux.</p><p>Projet en cours de développement. Aucune connexion TikTok ni publication automatique n'est encore active sur ce site.</p></section><section id="fonctionnalites"><h2>Fonctionnalités envisagées</h2><div class="card">🎬 Préparation de scripts vidéo et de descriptions.</div><div class="card">#️⃣ Suggestions de hashtags et organisation des brouillons.</div><div class="card">✅ Validation par l'utilisateur avant toute publication.</div></section><h2>Contact</h2><p>Avant publication, remplacez cette ligne par votre adresse e-mail de contact.</p></main><footer>© 2026 Jahjah · <a href="confidentialite.html">Politique de confidentialité</a> · <a href="conditions.html">Conditions d'utilisation</a></footer>
-</head><body><section id="jarvis-panel">
-  <h2>🤖 JAHJAH JARVIS AI</h2>
-  <p>Centre de commande — mode test local</p>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JAHJAH JARVIS AI</title>
+  <style>
+    body {
+      background: #0c101c;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 { color: #63e0ed; }
+    input, button {
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    input { width: 85%; }
+    button {
+      background: #63e0ed;
+      border: none;
+      cursor: pointer;
+    }
+    #jarvis-result {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤖 JAHJAH JARVIS AI</h1>
+  <p>Centre de commande connecté à Cloudflare</p>
+
   <input id="jarvis-command"
          placeholder="Écris une commande...">
-  <button type="button" onclick="
-    document.getElementById('jarvis-result').textContent =
-    'Commande locale : ' +
-    document.getElementById('jarvis-command').value">
-    Tester
+
+  <button id="send-button" onclick="sendJarvis()">
+    Envoyer à JAHJAH
   </button>
+
   <p id="jarvis-result" role="status"></p>
-</section>
+
+  <script>
+    const PROXY_URL =
+      "https://jahjah-jarvis-proxy.reitutaerea7.workers.dev/";
+
+    async function sendJarvis() {
+      const message = document
+        .getElementById("jarvis-command").value.trim();
+
+      const result = document.getElementById("jarvis-result");
+      const button = document.getElementById("send-button");
+
+      if (!message) {
+        result.textContent = "Écris une commande.";
+        return;
+      }
+
+      button.disabled = true;
+      result.textContent = "JAHJAH réfléchit...";
+
+      try {
+        const response = await fetch(PROXY_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        const text = await response.text();
+
+        if (!response.ok) {
+          throw new Error(
+            "Erreur HTTP " + response.status + " : " + text
+          );
+        }
+
+        try {
+          const data = JSON.parse(text);
+          result.textContent =
+            typeof data === "string"
+              ? data
+              : data.output || data.response ||
+                data.message || JSON.stringify(data, null, 2);
+        } catch {
+          result.textContent = text || "Réponse vide.";
+        }
+
+      } catch (error) {
+        result.textContent =
+          "Erreur de connexion : " + error.message;
+      } finally {
+        button.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
+
