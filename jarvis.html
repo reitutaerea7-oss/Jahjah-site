@@ -112,6 +112,33 @@ async function generate() {
 
     const data = await response.json();
     result.textContent = data.reply || 'Réponse vide de JARVIS.';
+
+if (
+  data.video_status === 'done' &&
+  typeof data.video_url === 'string' &&
+  data.video_url.startsWith('https://')
+) {
+  const video = document.createElement('video');
+  video.src = data.video_url;
+  video.controls = true;
+  video.playsInline = true;
+  video.style.width = '100%';
+  video.style.maxWidth = '480px';
+  video.style.marginTop = '15px';
+  video.style.borderRadius = '12px';
+
+  const link = document.createElement('a');
+  link.href = data.video_url;
+  link.textContent = '🎬 Ouvrir la vidéo MP4';
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.style.display = 'block';
+  link.style.marginTop = '12px';
+
+  result.appendChild(video);
+  result.appendChild(link);
+}
+
   } catch (error) {
     result.textContent = 'Connexion impossible : ' + error.message;
   }
