@@ -91,19 +91,26 @@ const reply =
       JSON.stringify(data, null, 2);
 
 
+
 let cleanReply = reply;
 
-if (typeof cleanReply === "string") {
+for (let i = 0; i < 3; i++) {
+  if (typeof cleanReply !== "string") break;
+
   try {
     const parsed = JSON.parse(cleanReply);
-    cleanReply = parsed.reply ?? parsed.output ?? cleanReply;
-  } catch (e) {}
+    cleanReply = parsed.reply ?? parsed.output ??
+                 parsed.response ?? parsed.message ?? parsed;
+  } catch {
+    break;
+  }
 }
 
 result.textContent = String(cleanReply)
-  .replace(/\\r\\n/g, "\n")
   .replace(/\\n/g, "\n")
+  .replace(/\\r/g, "")
   .replace(/\\"/g, '"');
+
   
 
         } catch {
