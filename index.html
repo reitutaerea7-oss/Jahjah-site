@@ -149,9 +149,11 @@ window.addEventListener("load", () => {
   accueillirJahjah();
 });
 
-document.addEventListener("pointerdown", () => {
-  accueillirJahjah();
-}, { once: true });
+document.addEventListener("click", () => {
+  if (!jahjahAccueilFait) {
+    accueillirJahjah();
+  }
+});
 
     function startJarvisVoice() {
         // Initialisation vocale lors du clic
