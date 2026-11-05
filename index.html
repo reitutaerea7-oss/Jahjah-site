@@ -119,10 +119,68 @@ button {
   <button id="send-button" onclick="sendJarvis()">
     Envoyer à JAHJAH
   </button>
+  <button type="button" onclick="startJarvisVoice()">
+  🎤 Parler à JAHJAH
+</button>
+
+<p id="voice-status"></p>
 
   <p id="jarvis-result" role="status"></p>
 
   <script>
+
+    function startJarvisVoice() {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  const status =
+    document.getElementById("voice-status");
+
+  const core =
+    document.querySelector(".jarvis-core");
+
+  if (!SpeechRecognition) {
+    status.textContent =
+      "Reconnaissance vocale indisponible dans ce navigateur.";
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = "fr-FR";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = () => {
+    status.textContent = "🎤 JAHJAH écoute...";
+    core?.classList.add("listening");
+  };
+
+  recognition.onresult = (event) => {
+    const message =
+      event.results[0][0].transcript;
+
+    document.getElementById(
+      "jarvis-command"
+    ).value = message;
+
+    status.textContent =
+      "Commande reconnue : " + message;
+  };
+
+  recognition.onerror = (event) => {
+    status.textContent =
+      "Erreur microphone : " + event.error;
+  };
+
+  recognition.onend = () => {
+    core?.classList.remove("listening");
+  };
+
+  recognition.start();
+}
+
     const PROXY_URL =
       "https://jahjah-jarvis-proxy.reitutaerea7.workers.dev/";
 
