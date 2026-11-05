@@ -167,9 +167,11 @@ button {
 
     status.textContent =
       "Commande reconnue : " + message;
+
+    sendJarvis();
   };
 
-sendJarvis();
+
 
   recognition.onerror = (event) => {
     status.textContent =
