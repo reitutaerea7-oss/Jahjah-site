@@ -136,26 +136,39 @@ let jahjahAccueilFait = false;
 
 function accueillirJahjah() {
   if (jahjahAccueilFait) return;
-      jahjahAccueilFait = true;
 
-  
+  if (!("speechSynthesis" in window)) return;
 
-  speakJarvis(
+  const synth = window.speechSynthesis;
+  const message = new SpeechSynthesisUtterance(
     "Bonjour et bienvenue dans JAHJAH JARVIS AI. " +
     "Tous mes systèmes sont prêts. " +
     "Je suis à votre service."
   );
+
+  message.lang = "fr-FR";
+  message.rate = 0.95;
+  message.volume = 1;
+
+  message.onstart = () => {
+    jahjahAccueilFait = true;
+  };
+
+  synth.cancel();
+  synth.speak(message);
 }
 
-window.addEventListener("load", () => {
-  accueillirJahjah();
-});
+// Essayer l'accueil à l'ouverture
+window.addEventListener("load", accueillirJahjah);
 
-document.addEventListener("click", () => {
+// Réessayer au premier toucher si Safari a bloqué la voix
+document.addEventListener("pointerdown", () => {
   if (!jahjahAccueilFait) {
     accueillirJahjah();
   }
-});
+}, { once: true });
+
+
 
     function startJarvisVoice() {
         // Initialisation vocale lors du clic
