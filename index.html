@@ -130,6 +130,43 @@ button {
 <button type="button" onclick="speakJarvis('Bonjour, je suis JAHJAH. Ma voix française est activée.')">
   🔊 Tester la voix
 </button>
+<!-- CENTRE DE COMMANDES JAHJAH -->
+<section id="jahjah-dashboard">
+  <h2>🚀 Centre de commandes JAHJAH</h2>
+
+  <button type="button"
+    onclick="jahjahCommande('Crée une idée de vidéo TikTok sans visage avec script et hashtags. Ne publie rien.')">
+    🎬 Créer une vidéo TikTok
+  </button>
+
+  <button type="button"
+    onclick="jahjahCommande('Prépare une idée de vidéo YouTube avec titre, script et description. Ne publie rien.')">
+    ▶️ Créer une vidéo YouTube
+  </button>
+
+  <button type="button"
+    onclick="jahjahCommande('Prépare un calendrier de publications pour les sept prochains jours. Ne publie rien.')">
+    📅 Planifier les publications
+  </button>
+
+  <button type="button"
+    onclick="jahjahCommande('Propose des idées de produits et contenus pour TikTok Shop. Ne publie rien.')">
+    🛍️ TikTok Shop
+  </button>
+
+  <button type="button"
+    onclick="jahjahCommande('Présente les prochaines automatisations n8n à configurer.')">
+    ⚙️ Automatisations
+  </button>
+</section>
+
+<script>
+function jahjahCommande(commande) {
+  document.getElementById("jarvis-command").value = commande;
+  sendJarvis();
+}
+</script>
+
 
   <script>
 let jahjahAccueilFait = false;
