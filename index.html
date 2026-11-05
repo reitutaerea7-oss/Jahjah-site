@@ -187,10 +187,12 @@ button {
 
     // VOIX FRANÇAISE JAHJAH JARVIS AI
 
-function speakJarvis(texte) {
+  function speakJarvis(texte) {
   if (!("speechSynthesis" in window) || !texte) {
     return;
   }
+
+  const synth = window.speechSynthesis;
 
   const voix = new SpeechSynthesisUtterance(
     String(texte)
@@ -201,9 +203,10 @@ function speakJarvis(texte) {
   voix.pitch = 1;
   voix.volume = 1;
 
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(voix);
+  synth.cancel();
+  synth.speak(voix);
 }
+    
     const PROXY_URL =
       "https://jahjah-jarvis-proxy.reitutaerea7.workers.dev/";
 
