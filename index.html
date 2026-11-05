@@ -169,6 +169,8 @@ button {
       "Commande reconnue : " + message;
   };
 
+sendJarvis();
+
   recognition.onerror = (event) => {
     status.textContent =
       "Erreur microphone : " + event.error;
