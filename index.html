@@ -181,6 +181,25 @@ button {
   recognition.start();
 }
 
+    // VOIX FRANÇAISE JAHJAH JARVIS AI
+
+function speakJarvis(texte) {
+  if (!("speechSynthesis" in window) || !texte) {
+    return;
+  }
+
+  const voix = new SpeechSynthesisUtterance(
+    String(texte)
+  );
+
+  voix.lang = "fr-FR";
+  voix.rate = 0.95;
+  voix.pitch = 1;
+  voix.volume = 1;
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(voix);
+}
     const PROXY_URL =
       "https://jahjah-jarvis-proxy.reitutaerea7.workers.dev/";
 
@@ -246,6 +265,8 @@ result.textContent = String(cleanReply)
   .replace(/\\n/g, "\n")
   .replace(/\\r/g, "")
   .replace(/\\"/g, '"');
+
+speakJarvis(result.textContent);
 
   const videoUrl = data.video_url;
 const videoStatus = data.video_status;
