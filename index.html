@@ -134,14 +134,20 @@ button {
   <script>
 
     function startJarvisVoice() {
-        // Activer la voix au clic sur le microphone
-  if ("speechSynthesis" in window) {
-    const synth = window.speechSynthesis;
-    const activation = new SpeechSynthesisUtterance(" ");
-    activation.lang = "fr-FR";
-    activation.volume = 0;
-    synth.speak(activation);
-  }
+        // Initialisation vocale lors du clic
+if ("speechSynthesis" in window) {
+  const synth = window.speechSynthesis;
+  synth.cancel();
+
+  const activation = new SpeechSynthesisUtterance(
+    "Je vous écoute."
+  );
+  activation.lang = "fr-FR";
+  activation.rate = 0.95;
+  activation.volume = 1;
+
+  synth.speak(activation);
+}
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
