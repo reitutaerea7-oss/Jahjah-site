@@ -132,6 +132,26 @@ button {
 </button>
 
   <script>
+let jahjahAccueilFait = false;
+
+function accueillirJahjah() {
+  if (jahjahAccueilFait) return;
+  jahjahAccueilFait = true;
+
+  speakJarvis(
+    "Bonjour et bienvenue dans JAHJAH JARVIS AI. " +
+    "Tous mes systèmes sont prêts. " +
+    "Je suis à votre service."
+  );
+}
+
+window.addEventListener("load", () => {
+  accueillirJahjah();
+});
+
+document.addEventListener("pointerdown", () => {
+  accueillirJahjah();
+}, { once: true });
 
     function startJarvisVoice() {
         // Initialisation vocale lors du clic
