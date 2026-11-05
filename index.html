@@ -134,6 +134,14 @@ button {
   <script>
 
     function startJarvisVoice() {
+        // Activer la voix au clic sur le microphone
+  if ("speechSynthesis" in window) {
+    const synth = window.speechSynthesis;
+    const activation = new SpeechSynthesisUtterance(" ");
+    activation.lang = "fr-FR";
+    activation.volume = 0;
+    synth.speak(activation);
+  }
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
