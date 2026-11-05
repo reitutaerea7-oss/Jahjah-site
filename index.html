@@ -29,11 +29,89 @@
       white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
+/* JAHJAH JARVIS AI — DARK MODE */
+
+body {
+  background: radial-gradient(
+    circle at 50% 35%,
+    #102638 0%,
+    #050b14 45%,
+    #010308 100%
+  );
+  color: #e5f8ff;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #62eaff;
+  text-shadow: 0 0 20px #00cfff80;
+}
+
+input {
+  background: #081827;
+  color: #e5f8ff;
+  border: 1px solid #23627d;
+  box-shadow: 0 0 12px #00cfff20;
+}
+
+button {
+  background: #07364b;
+  color: #65edff;
+  border: 1px solid #35cfff;
+  box-shadow: 0 0 15px #00cfff40;
+}
+
+#jarvis-result {
+  color: #bcefff;
+  background: #071523;
+  border: 1px solid #20536b;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+}
+.jarvis-core-inner {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #ffffff 0%,
+    #8cf5ff 20%,
+    #00bfff 50%,
+    #00354f 100%
+  );
+  box-shadow:
+    0 0 25px #00dfff,
+    0 0 60px #00bfff,
+    inset 0 0 20px #ffffff80;
+}
+.jarvis-core {
+  width: 220px;
+  height: 220px;
+  margin: 35px auto;
+  border: 3px solid #55eaff;
+  border-radius: 50%;
+  background: radial-gradient(circle, #126078, #071827 55%, #02060d);
+  box-shadow: 0 0 30px #00dfff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: jarvisPulse 3s infinite ease-in-out;
+}
+
+@keyframes jarvisPulse {
+  0%, 100% { box-shadow: 0 0 20px #00dfff; }
+  50% { box-shadow: 0 0 55px #00dfff; }
+}
+
   </style>
 </head>
 <body>
   <h1>🤖 JAHJAH JARVIS AI</h1>
   <p>Centre de commande connecté à Cloudflare</p>
+<div class="jarvis-core">
+  <div class="jarvis-core-inner"></div>
+</div>
 
   <input id="jarvis-command"
          placeholder="Écris une commande...">
