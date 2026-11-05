@@ -158,15 +158,35 @@ function accueillirJahjah() {
   synth.speak(message);
 }
 
-// Essayer l'accueil à l'ouverture
-window.addEventListener("load", accueillirJahjah);
+let accueilEnCours = false;
 
-// Réessayer au premier toucher si Safari a bloqué la voix
-document.addEventListener("pointerdown", () => {
-  if (!jahjahAccueilFait) {
-    accueillirJahjah();
-  }
+document.addEventListener("click", () => {
+  if (jahjahAccueilFait || accueilEnCours) return;
+
+  accueilEnCours = true;
+
+  const message = new SpeechSynthesisUtterance(
+    "Bonjour et bienvenue dans JAHJAH JARVIS AI. Je suis à votre service."
+  );
+
+  message.lang = "fr-FR";
+  message.rate = 0.95;
+
+  message.onstart = () => {
+    jahjahAccueilFait = true;
+  };
+
+  message.onend = () => {
+    accueilEnCours = false;
+  };
+
+  message.onerror = () => {
+    accueilEnCours = false;
+  };
+
+  window.speechSynthesis.speak(message);
 }, { once: true });
+
 
 
 
