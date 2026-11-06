@@ -356,14 +356,16 @@ if ("speechSynthesis" in window) {
 
         try {
           const data = JSON.parse(text);
-          
+  
 const reply =
   typeof data === "string"
     ? data
-    : data.reply || data.output ||
-      data.response || data.message ||
-      JSON.stringify(data, null, 2);
-
+    : data.reply ??
+      data.output ??
+      data.response ??
+      data.message ??
+      "Vidéo générée avec succès.";
+        
 
 
 let cleanReply = reply;
