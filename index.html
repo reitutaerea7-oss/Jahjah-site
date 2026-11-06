@@ -369,21 +369,42 @@ const reply =
 let cleanReply = reply;
 
 for (let i = 0; i < 3; i++) {
-  if (typeof cleanReply !== "string") break;
-
-  try {
-    const parsed = JSON.parse(cleanReply);
-    cleanReply = parsed.reply ?? parsed.output ??
-                 parsed.response ?? parsed.message ?? parsed;
-  } catch {
-    break;
+  if (typeof cleanReply === "string") {
+    try {
+      cleanReply = JSON.parse(cleanReply);
+      continue;
+    } catch {
+      break;
+    }
   }
+
+  if (cleanReply && typeof cleanReply === "object") {
+    const next =
+      cleanReply.reply ??
+      cleanReply.output ??
+      cleanReply.response ??
+      cleanReply.message;
+
+    if (next !== undefined) {
+      cleanReply = next;
+      continue;
+    }
+  }
+
+  break;
 }
 
-result.textContent = String(cleanReply)
+const texteFinal =
+  typeof cleanReply === "string"
+    ? cleanReply
+    : JSON.stringify(cleanReply, null, 2);
+
+result.textContent = texteFinal
   .replace(/\\n/g, "\n")
   .replace(/\\r/g, "")
   .replace(/\\"/g, '"');
+
+
 
 speakJarvis(result.textContent);
 
